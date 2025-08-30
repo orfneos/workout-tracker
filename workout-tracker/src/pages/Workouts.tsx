@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { authAPI } from '../api';
 import { Workout } from '../types/Workouts';
 import WorkoutCard from '../components/WorkoutCard';
+import toast from "react-hot-toast";
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -41,8 +42,9 @@ const Workouts = () => {
         const wId = w._id || w.id;
         return wId !== id;
       }));
+      toast.success('Workout deleted successfully!');
     } else {
-      alert(result.error || 'Failed to delete workout');
+      toast.error(result.error || 'Failed to delete workout');
     }
   };
 

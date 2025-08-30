@@ -7,6 +7,7 @@ import { authAPI } from './api';
 import CreateWorkout from './pages/CreateWorkout';
 import Workouts from './pages/Workouts';
 import Footer from './components/Footer';
+import { Toaster } from 'react-hot-toast';
 
 interface AppRoutesProps {
     isLoggedIn: boolean;
@@ -103,6 +104,16 @@ function App() {
         <Router>
             <div className="min-h-screen flex flex-col">
                 <AppRoutes isLoggedIn={isLoggedIn} onLoginSuccess={handleLoginSuccess} onLogout={handleLogout} />
+                <Toaster
+                    position="top-right"
+                    toastOptions={{
+                        duration: 4000,
+                        style: {
+                            background: '#363636',
+                            color: '#fff',
+                        },
+                    }}
+                />
             </div>
         </Router>
     );
