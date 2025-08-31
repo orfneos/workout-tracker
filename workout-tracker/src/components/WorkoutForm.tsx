@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import { Exercise, WorkoutSet } from '../types/Workouts';
 import Button from './Button';
 import Input from './Input';
+import toast from 'react-hot-toast';
 
 interface WorkoutFormProps {
     exercises: Exercise[];
@@ -43,13 +44,26 @@ const WorkoutForm = ({
     const addSet = (e: FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        if (!currentSet.weight || !currentSet.reps) return;
 
-        const newSet: WorkoutSet = {
-            weight: parseFloat(currentSet.weight),
-            reps: parseInt(currentSet.reps)
-        };
+        if (!currentSet.weight || !currentSet.reps) {
+            toast.error('Please enter both weight and reps');
+            return;
+        }
 
+        const weight = parseFloat(currentSet.weight);
+        const reps = parseInt(currentSet.reps);
+
+        if (weight <= 0) {
+            toast.error('Weight must be greater than 0');
+            return;
+        }
+
+        if (reps <= 0) {
+            toast.error('Reps must be greater than 0');
+            return;
+        }
+
+        const newSet: WorkoutSet = { weight, reps };
         setCurrentSets([...currentSets, newSet]);
         setCurrentSet({ weight: '', reps: '' });
     };
@@ -57,7 +71,16 @@ const WorkoutForm = ({
     const addExercise = (e: FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        if (!exerciseName || currentSets.length === 0) return;
+
+        if (!exerciseName) {
+            toast.error('Please enter exercise name');
+            return;
+        }
+
+        if (currentSets.length === 0) {
+            toast.error('Please add at least one set');
+            return;
+        }
 
         const newExercise: Exercise = {
             name: exerciseName,
@@ -68,6 +91,7 @@ const WorkoutForm = ({
         setExerciseName('');
         setCurrentSets([]);
         setCurrentSet({ weight: '', reps: '' });
+        toast.success('Exercise added successfully!');
     };
 
     const removeExercise = (index: number) => {
@@ -92,7 +116,7 @@ const WorkoutForm = ({
             </form>
 
             {/* Sets Form */}
-            <form className="flex gap-2 mb-4 w-full flex-wrap" onSubmit={addSet}>
+            <form className="flex gap-2 mb-4 w-full flex-wrap" onSubmit={addSet} noValidate>
                 <div className="flex gap-2 flex-1">
                     <Input
                         name="weight"
@@ -100,8 +124,7 @@ const WorkoutForm = ({
                         onChange={handleSetChange}
                         placeholder="Weight"
                         type="number"
-                        min="0"
-                        required
+                        min="0.1"
                         className="w-24"
                     />
                     <Input
@@ -111,7 +134,6 @@ const WorkoutForm = ({
                         placeholder="Reps"
                         type="number"
                         min="1"
-                        required
                         className="w-20"
                     />
                     <Button

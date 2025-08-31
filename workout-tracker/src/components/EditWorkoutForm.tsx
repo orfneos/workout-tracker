@@ -3,6 +3,7 @@ import { authAPI } from '../api';
 import { Workout, Exercise, WorkoutSet } from '../types/Workouts';
 import { cn } from '../lib/utils';
 import Input from './Input';
+import toast from 'react-hot-toast';
 
 interface EditWorkoutFormProps {
   workout: Workout;
@@ -41,24 +42,50 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
 
   const addSet = (e: FormEvent) => {
     e.preventDefault();
-    if (!set.weight || !set.reps) return;
-    const newSet: WorkoutSet = {
-      weight: parseFloat(set.weight),
-      reps: parseInt(set.reps)
-    };
+
+    if (!set.weight || !set.reps) {
+      toast.error('Please enter both weight and reps');
+      return;
+    }
+
+    const weight = parseFloat(set.weight);
+    const reps = parseInt(set.reps);
+
+    if (weight <= 0) {
+      toast.error('Weight must be greater than 0');
+      return;
+    }
+
+    if (reps <= 0) {
+      toast.error('Reps must be greater than 0');
+      return;
+    }
+
+    const newSet: WorkoutSet = { weight, reps };
     setExercise({ ...exercise, sets: [...exercise.sets, newSet] });
     setSet({ weight: '', reps: '' });
   };
 
   const addExercise = (e: FormEvent) => {
     e.preventDefault();
-    if (!exercise.name || exercise.sets.length === 0) return;
+
+    if (!exercise.name) {
+      toast.error('Please enter exercise name');
+      return;
+    }
+
+    if (exercise.sets.length === 0) {
+      toast.error('Please add at least one set');
+      return;
+    }
+
     const newExercise: Exercise = {
       name: exercise.name,
       sets: exercise.sets
     };
     setExercises([...exercises, newExercise]);
     setExercise({ name: '', sets: [] });
+    toast.success('Exercise added successfully!');
   };
 
   const removeExercise = (idx: number) => {
@@ -98,16 +125,17 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
     setError('');
     const workoutId = workout._id || workout.id;
     if (!workoutId) {
-      setError('Workout ID is missing');
+      toast.error('Workout ID is missing');
       setLoading(false);
       return;
     }
     const result = await authAPI.updateWorkout(workoutId, { ...workout, exercises });
     setLoading(false);
     if (result.success) {
+      toast.success('Workout updated successfully!');
       if (onSave) onSave(result.data);
     } else {
-      setError(result.error || 'Failed to update workout');
+      toast.error(result.error || 'Failed to update workout');
     }
   };
 
