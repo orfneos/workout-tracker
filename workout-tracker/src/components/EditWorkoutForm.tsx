@@ -98,7 +98,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
 
   /**
    * Updates a specific set field within a nested exercise structure
-   * Handles immutable updates for deeply nested state
+   * Handles immutable updates for a deeply nested state
    */
   const handleSetEdit = (exIdx: number, setIdx: number, field: keyof WorkoutSet, value: string) => {
     setExercises(exercises.map((ex, i) =>

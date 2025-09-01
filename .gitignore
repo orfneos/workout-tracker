@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# IDE files
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
