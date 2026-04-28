@@ -1,8 +1,17 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
+const dns = require('dns')
+dns.setServers(['8.8.8.8', '8.8.4.4'])
 
-mongoose.connect('mongodb://localhost:27017/mydb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('✅ MongoDB connected to Atlas');
+    console.log('Database Name:', mongoose.connection.name);
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+};
+
+connectDB();
