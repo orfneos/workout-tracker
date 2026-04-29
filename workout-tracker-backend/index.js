@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const authenticateToken = require('./middleware/auth');
 
 const workoutController = require('./controllers/workoutController');
@@ -54,8 +54,9 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+// API Routes
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.json({ message: 'Workout Tracker API is running' });
 });
 
 app.post('/login', authController.login);
