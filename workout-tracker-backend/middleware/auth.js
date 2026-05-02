@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not set');
+}
 
 /**
  * JWT authentication middleware
@@ -10,14 +13,16 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Authorization header missing or malformed' });
     }
 
+    const token = authHeader.split(' ')[1];
+
+
     try {
-        req.user = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
         next();
     } catch (err) {
         return res.status(403).json({ message: 'Invalid token' });
