@@ -2,7 +2,10 @@ const userDao = require('../dao/userDao');
 const userDto = require('../dto/userDto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not set');
+}
 
 exports.login = async (email, password) => {
   if (!email || !password) {
