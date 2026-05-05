@@ -17,6 +17,11 @@ exports.getWorkouts = async (userId) => {
 };
 
 exports.updateWorkout = async (userId, id, exercises, date) => {
+  if (exercises !== undefined && (!Array.isArray(exercises) || exercises.length === 0)) {
+    const err = new Error('Exercises are required.');
+    err.status = 400;
+    throw err;
+  }
   const workout = await workoutDao.updateWorkout(userId, id, exercises, date);
   if (!workout) {
     const err = new Error('Workout not found.');
