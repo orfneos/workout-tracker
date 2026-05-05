@@ -16,7 +16,7 @@ exports.updateWorkout = (userId, id, exercises, date) => {
   return Workout.findOneAndUpdate(
     { _id: id, user: userId },
     { exercises, date },
-    { new: true }
+    { new: true, runValidators: true }
   );
 };
 
