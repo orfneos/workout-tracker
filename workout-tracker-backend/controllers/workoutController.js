@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const workoutService = require('../services/workoutService');
 
 /**
@@ -14,7 +15,7 @@ const validateSet = (set) => {
   return (
       typeof weight === 'number' &&
       typeof reps === 'number' &&
-      weight > 0 &&
+      weight >= 0 &&
       reps > 0 &&
       weight <= 1000 &&
       reps <= 100
@@ -48,7 +49,7 @@ const validateExercise = (exercise) => {
 };
 
 const validateWorkoutId = (id) => {
-  return typeof id === 'string' && id.trim().length > 0;
+  return mongoose.Types.ObjectId.isValid(id);
 };
 
 /**
