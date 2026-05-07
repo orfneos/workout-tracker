@@ -6,7 +6,7 @@ interface InputProps {
     value: string | number;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    type?: string;
+    type?: 'text' | 'number' | 'password' | 'email';
     min?: number | string;
     required?: boolean;
     disabled?: boolean;
