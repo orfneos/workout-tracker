@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { cn } from '../lib/utils';
 
 interface InputProps {
+    id?: string;
     name: string;
     value: string | number;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -15,6 +16,7 @@ interface InputProps {
 }
 
 const Input = ({
+                   id,
                    name,
                    value,
                    onChange,
@@ -30,6 +32,7 @@ const Input = ({
 
     return (
         <input
+            id={id}
             name={name}
             value={value}
             onChange={onChange}
