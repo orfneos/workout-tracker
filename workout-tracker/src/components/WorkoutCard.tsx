@@ -26,7 +26,7 @@ const WorkoutCard = ({
     return (
         <li className="bg-gray-100 mb-2 p-4 rounded-md text-left">
             <div className="flex justify-between items-center mb-2">
-                <strong className="text-lg">{new Date(workout.date || Date.now()).toLocaleString()}</strong>
+                <h3 className="text-lg">{new Date(workout.date || Date.now()).toLocaleString()}</h3>
                 <Button
                     variant="danger"
                     size="sm"
