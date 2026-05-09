@@ -42,10 +42,6 @@ export const authAPI = {
     try {
       const response: AxiosResponse = await api.post('/login', { email, password });
 
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-
       return {
         success: true,
         data: response.data,
@@ -65,10 +61,6 @@ export const authAPI = {
   signup: async (email: string, password: string): Promise<AuthResponse> => {
     try {
       const response: AxiosResponse = await api.post('/signup', { email, password });
-
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
 
       return {
         success: true,
