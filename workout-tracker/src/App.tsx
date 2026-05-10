@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import Header from './pages/Header';
+import Header from './components/Header';
 import { authAPI } from './api';
 import CreateWorkout from './pages/CreateWorkout';
 import Workouts from './pages/Workouts';
