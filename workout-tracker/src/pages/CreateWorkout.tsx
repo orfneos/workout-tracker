@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { authAPI } from '../api';
 import { Exercise } from '../types/Workouts';
 import WorkoutForm from '../components/WorkoutForm';
+import toast from 'react-hot-toast';
 
 interface CreateWorkoutProps {
   onSave: () => void;
@@ -14,7 +15,11 @@ const CreateWorkout = ({ onSave, onCancel }: CreateWorkoutProps) => {
   const [error, setError] = useState('');
 
   const handleSave = async (): Promise<void> => {
-    if (exercises.length === 0) return;
+    if (exercises.length === 0) {
+      toast.error('Please add at least one exercise.');
+      return;
+    } 
+      
 
     setLoading(true);
     setError('');
