@@ -12,20 +12,13 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    /**
-     * Artificial delay for better UX - prevents flash of loading state
-     * In production, consider removing or reducing the timeout
-     */
+ 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            const savedUser = localStorage.getItem('user');
-            if (savedUser) {
-                setUser(JSON.parse(savedUser));
-            }
-            setLoading(false);
-        }, 500);
-
-        return () => clearTimeout(timer);
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
+        }
+        setLoading(false);
     }, []);
 
     if (loading) {
@@ -37,11 +30,8 @@ const Profile = () => {
     }
 
     if (!user) {
-        return (
-            <div className="flex items-center justify-center min-h-[80vh] bg-gray-100">
-                <div className="text-xl">No user found</div>
-            </div>
-        );
+        navigate('/login');
+        return null; // Prevent rendering while redirecting
     }
 
     return (
