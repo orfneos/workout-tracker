@@ -102,7 +102,6 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
           ? await authAPI.login(email, password)
           : await authAPI.signup(email, password);
 
-      console.log('API Response:', result);
 
       if (result.success && result.data) {
         const userData = {
