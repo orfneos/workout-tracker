@@ -29,7 +29,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
   const [exercise, setExercise] = useState<ExerciseForm>({ name: '', sets: [] });
   const [set, setSet] = useState<SetForm>({ weight: '', reps: '' });
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+ 
 
   const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setExercise({ ...exercise, name: e.target.value });
@@ -122,7 +122,6 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
    */
   const handleSave = async (): Promise<void> => {
     setLoading(true);
-    setError('');
     const workoutId = workout._id || workout.id;
     if (!workoutId) {
       toast.error('Workout ID is missing');
@@ -267,7 +266,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
           ))}
         </ul>
 
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+      
 
         <div className="flex gap-4">
           <button
