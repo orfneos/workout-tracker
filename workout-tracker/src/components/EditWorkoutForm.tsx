@@ -132,7 +132,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
     setLoading(false);
     if (result.success) {
       toast.success('Workout updated successfully!');
-      if (onSave) onSave(result.data);
+      onSave(result.data);
     } else {
       toast.error(result.error || 'Failed to update workout');
     }
@@ -228,8 +228,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                             min="0"
                             value={String(s.weight)}
                             onChange={e => handleSetEdit(exIdx, setIdx, 'weight', e.target.value)}
-                            className="mx-1 text-sm"
-                            style={{ width: 60 }}
+                            className="mx-1 text-sm w-16"
                         />
                         kg x
 
@@ -239,8 +238,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                             min="1"
                             value={String(s.reps)}
                             onChange={e => handleSetEdit(exIdx, setIdx, 'reps', e.target.value)}
-                            className="mx-1 text-sm"
-                            style={{ width: 50 }}
+                            className="mx-1 text-sm w-12"
                         />
                         reps
 
