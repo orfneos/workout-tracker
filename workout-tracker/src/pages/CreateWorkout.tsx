@@ -31,7 +31,7 @@ const CreateWorkout = ({ onSave, onCancel }: CreateWorkoutProps) => {
       });
 
       if (result.success) {
-        onSave?.();
+        onSave();
       } else {
         setError(result.error || 'Failed to save workout');
       }
