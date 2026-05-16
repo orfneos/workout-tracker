@@ -228,7 +228,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                             min="0"
                             value={String(s.weight)}
                             onChange={e => handleSetEdit(exIdx, setIdx, 'weight', e.target.value)}
-                            className="mx-1 text-sm w-16"
+                            className="mx-1 text-sm w-14"
                         />
                         kg x
 
@@ -238,12 +238,12 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                             min="1"
                             value={String(s.reps)}
                             onChange={e => handleSetEdit(exIdx, setIdx, 'reps', e.target.value)}
-                            className="mx-1 text-sm w-12"
+                            className="mx-1 text-sm w-14"
                         />
                         reps
 
                         <button
-                            className={cn(buttonBaseClasses, dangerButtonClasses, 'ml-4 px-4 py-1 text-sm')}
+                            className={cn(buttonBaseClasses, dangerButtonClasses, 'ml-8 px-6 py-1 text-sm')}
                             onClick={() => removeSet(exIdx, setIdx)}
                             type="button"
                         >
@@ -254,7 +254,7 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                 </ul>
 
                 <button
-                    className={cn(buttonBaseClasses, dangerButtonClasses, 'mt-2 px-4 py-1 text-sm')}
+                    className={cn(buttonBaseClasses, dangerButtonClasses, 'mt-1 px-4 py-1 text-sm')}
                     onClick={() => removeExercise(exIdx)}
                     type="button"
                 >
