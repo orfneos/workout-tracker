@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Button from '../components/Button';
+import LoadingSpinner from '../components/LoadingSpinner';
 interface User {
     _id: string;
     email: string;
@@ -21,14 +22,13 @@ const Profile = () => {
         setLoading(false);
     }, []);
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[80vh] bg-gray-100">
-                <div className="text-xl">Loading profile...</div>
-            </div>
-        );
-    }
-
+   if (loading) {
+    return (
+        <div className="flex items-center justify-center min-h-[80vh] bg-gray-100">
+            <LoadingSpinner size="lg" />
+        </div>
+    );
+}
     if (!user) {
         navigate('/login');
         return null; // Prevent rendering while redirecting
@@ -42,18 +42,23 @@ const Profile = () => {
                 </h1>
 
                 <div className="flex flex-col gap-4">
-                    <button
-                        className="px-6 py-3 text-lg border-none rounded-lg bg-blue-500 text-white cursor-pointer transition-colors duration-200 hover:bg-blue-600 w-full"
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full"
                         onClick={() => navigate('/workouts')}
                     >
                         Workout List
-                    </button>
-                    <button
-                        className="px-6 py-3 text-lg border-none rounded-lg bg-green-500 text-white cursor-pointer transition-colors duration-200 hover:bg-green-600 w-full"
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full"
                         onClick={() => navigate('/create-workout')}
                     >
                         Create New Workout
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
