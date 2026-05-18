@@ -1,8 +1,9 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { authAPI } from '../api';
 import { Workout, Exercise, WorkoutSet } from '../types/Workouts';
-import { cn } from '../lib/utils';
 import Input from './Input';
+import Button from './Button';
+import LoadingSpinner from './LoadingSpinner';
 import toast from 'react-hot-toast';
 
 interface EditWorkoutFormProps {
@@ -29,7 +30,6 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
   const [exercise, setExercise] = useState<ExerciseForm>({ name: '', sets: [] });
   const [set, setSet] = useState<SetForm>({ weight: '', reps: '' });
   const [loading, setLoading] = useState<boolean>(false);
- 
 
   const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setExercise({ ...exercise, name: e.target.value });
@@ -138,11 +138,6 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
     }
   };
 
-  const buttonBaseClasses = 'rounded-md border-none cursor-pointer font-medium transition-colors duration-200';
-  const primaryButtonClasses = 'bg-blue-500 text-white hover:bg-blue-600';
-  const dangerButtonClasses = 'bg-red-500 text-white hover:bg-red-700';
-  const disabledButtonClasses = 'bg-gray-300 cursor-not-allowed';
-
   return (
       <div className="bg-gray-100 rounded-lg p-4 my-4">
         <form className="flex flex-col gap-4 mb-4" onSubmit={addExercise} noValidate>
@@ -176,34 +171,27 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                   className="w-20"
               />
 
-              <button
-                  onClick={addSet}
-                  className={cn(buttonBaseClasses, primaryButtonClasses, 'px-4 py-2')}
-                  type="button"
-              >
+              <Button type="button" variant="primary" onClick={addSet}>
                 Add Set
-              </button>
+              </Button>
             </div>
 
             <ul className="list-none pl-0">
               {exercise.sets.map((s, idx) => (
-                  <li key={idx} className="text-sm text-gray-600">Set {idx + 1}: {s.weight}kg x {s.reps} reps</li>
+                  <li key={idx} className="text-sm text-gray-600">
+                    Set {idx + 1}: {s.weight}kg x {s.reps} reps
+                  </li>
               ))}
             </ul>
           </div>
 
-          <button
+          <Button
               type="submit"
+              variant="primary"
               disabled={!exercise.name || exercise.sets.length === 0}
-              className={cn(
-                  buttonBaseClasses,
-                  primaryButtonClasses,
-                  'px-4 py-2',
-                  (!exercise.name || exercise.sets.length === 0) && disabledButtonClasses
-              )}
           >
             Add Exercise
-          </button>
+          </Button>
         </form>
 
         <ul className="list-none p-0 mb-4 w-full">
@@ -242,55 +230,48 @@ const EditWorkoutForm = ({ workout, onSave, onCancel }: EditWorkoutFormProps) =>
                         />
                         reps
 
-                        <button
-                            className={cn(buttonBaseClasses, dangerButtonClasses, 'ml-8 px-6 py-1 text-sm')}
+                        <Button
+                            variant="danger"
+                            size="sm"
                             onClick={() => removeSet(exIdx, setIdx)}
-                            type="button"
+                            className="ml-2"
                         >
                           Remove Set
-                        </button>
+                        </Button>
                       </li>
                   ))}
                 </ul>
 
-                <button
-                    className={cn(buttonBaseClasses, dangerButtonClasses, 'mt-1 px-4 py-1 text-sm')}
+                <Button
+                    variant="danger"
+                    size="sm"
                     onClick={() => removeExercise(exIdx)}
-                    type="button"
+                    className="mt-1"
                 >
                   Remove Exercise
-                </button>
+                </Button>
               </li>
           ))}
         </ul>
 
-      
-
         <div className="flex gap-4">
-          <button
+          <Button
+              variant="primary"
+              size="lg"
               onClick={handleSave}
               disabled={exercises.length === 0 || loading}
-              className={cn(
-                  buttonBaseClasses,
-                  primaryButtonClasses,
-                  'px-6 py-3 text-base font-medium',
-                  (exercises.length === 0 || loading) && disabledButtonClasses
-              )}
           >
-            {loading ? 'Saving...' : 'Save Changes'}
-          </button>
+            {loading ? <LoadingSpinner size="sm" /> : 'Save Changes'}
+          </Button>
 
-          <button
+          <Button
+              variant="secondary"
+              size="lg"
               onClick={onCancel}
               disabled={loading}
-              className={cn(
-                  buttonBaseClasses,
-                  'px-6 py-3 text-base font-medium bg-gray-200 text-gray-800 hover:bg-red-500 hover:text-white',
-                  loading && disabledButtonClasses
-              )}
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
   );
