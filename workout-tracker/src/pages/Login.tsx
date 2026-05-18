@@ -4,6 +4,7 @@ import { authAPI } from '../api';
 import  Input  from '../components/Input';
 import Button from '../components/Button';
 import  LoadingSpinner  from '../components/LoadingSpinner';
+import { User } from '../types/User';
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -14,11 +15,6 @@ interface FormData {
   password: string;
 }
 
-interface User {
-  _id: string;
-  email: string;
-  name?: string;
-}
 
 interface AuthResponse {
   success: boolean;

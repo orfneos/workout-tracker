@@ -2,11 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import LoadingSpinner from '../components/LoadingSpinner';
-interface User {
-    _id: string;
-    email: string;
-    name: string;
-}
+import { User } from '../types/User';
 
 const Profile = () => {
     const [user, setUser] = useState<User | null>(null);
