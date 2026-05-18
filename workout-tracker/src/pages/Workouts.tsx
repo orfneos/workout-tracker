@@ -3,6 +3,7 @@ import { authAPI } from '../api';
 import { Workout } from '../types/Workouts';
 import WorkoutCard from '../components/WorkoutCard';
 import toast from "react-hot-toast";
+import  LoadingSpinner  from '../components/LoadingSpinner';
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -51,7 +52,7 @@ const Workouts = () => {
   return (
       <div className="max-w-lg mx-auto my-8 bg-white rounded-xl shadow-lg p-8 flex flex-col items-center">
         <h2 className="text-2xl font-bold mb-6">Your Workouts</h2>
-        {loading && <div>Loading...</div>}
+        {loading && <LoadingSpinner size="md" />}
         {error && <div className="text-red-500 mb-4">{error}</div>}
         <ul className="list-none p-0 w-full mt-4">
           {workouts.map((workout) => (
