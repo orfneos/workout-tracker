@@ -46,12 +46,12 @@ const WorkoutCard = ({
             ) : (
                 <>
                     <ul className="list-none pl-0 mt-2">
-                        {workout.exercises.map((ex, idx) => (
-                            <li key={idx} className="mb-3">
+                        {workout.exercises.map((ex) => (
+                            <li key={ex.name} className="mb-3">
                                 <span className="font-semibold block mb-1">{ex.name}</span>
                                 <ul className="list-none pl-6 mt-1 text-gray-600 text-sm">
                                     {ex.sets.map((s, sidx) => (
-                                        <li key={sidx} className="mb-1">
+                                        <li key={`${ex.name}-${sidx}`} className="mb-1">
                                             Set {sidx + 1}: {s.weight}kg x {s.reps} reps
                                         </li>
                                     ))}
