@@ -10,12 +10,12 @@ export type Exercise = {
 
 export type CreateWorkout = {
     exercises: Exercise[];
-    date?: Date;
+    date?: string | Date;
 }
 
 export type Workout = {
     id: string,
     exercises: Exercise[];
-    date?: Date;
+    date?: string | Date;
     _id?: string; // For backward compatibility with MongoDB
 }
