@@ -3,13 +3,15 @@ import { authAPI } from '../api';
 import { Workout } from '../types/Workouts';
 import WorkoutCard from '../components/WorkoutCard';
 import toast from "react-hot-toast";
-import  LoadingSpinner  from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ConfirmModal from '../components/ConfirmModal';
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [workoutToDelete, setWorkoutToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWorkouts = async (): Promise<void> => {
@@ -35,18 +37,23 @@ const Workouts = () => {
     setEditingId(null);
   };
 
-  const handleDeleteWorkout = async (id: string): Promise<void> => {
-    if (!window.confirm('Are you sure you want to delete this workout?')) return;
-    const result = await authAPI.deleteWorkout(id);
+  const handleDeleteWorkout = (id: string): void => {
+    setWorkoutToDelete(id);
+  };
+
+  const confirmDelete = async (): Promise<void> => {
+    if (!workoutToDelete) return;
+    const result = await authAPI.deleteWorkout(workoutToDelete);
     if (result.success) {
       setWorkouts(workouts.filter(w => {
         const wId = w._id || w.id;
-        return wId !== id;
+        return wId !== workoutToDelete;
       }));
       toast.success('Workout deleted successfully!');
     } else {
       toast.error(result.error || 'Failed to delete workout');
     }
+    setWorkoutToDelete(null);
   };
 
   return (
@@ -67,7 +74,16 @@ const Workouts = () => {
               />
           ))}
         </ul>
-        {(!loading && workouts.length === 0) && <div className="text-gray-500">No workouts found.</div>}
+        {(!loading && workouts.length === 0) && (
+            <div className="text-gray-500">No workouts found.</div>
+        )}
+        {workoutToDelete && (
+            <ConfirmModal
+                message="Are you sure you want to delete this workout?"
+                onConfirm={confirmDelete}
+                onCancel={() => setWorkoutToDelete(null)}
+            />
+        )}
       </div>
   );
 };
