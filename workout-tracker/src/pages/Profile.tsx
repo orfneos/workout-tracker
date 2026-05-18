@@ -26,7 +26,6 @@ const Profile = () => {
     );
 }
     if (!user) {
-        navigate('/login');
         return null; // Prevent rendering while redirecting
     }
 
