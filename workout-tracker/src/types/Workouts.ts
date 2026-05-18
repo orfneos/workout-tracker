@@ -14,7 +14,7 @@ export type CreateWorkout = {
 }
 
 export type Workout = {
-    id: string,
+    id?: string,
     exercises: Exercise[];
     date?: string | Date;
     _id?: string; // For backward compatibility with MongoDB
